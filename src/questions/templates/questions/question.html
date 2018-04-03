@@ -1,0 +1,12 @@
+{% extends "questions/base.html" %}
+
+{% block content %}
+    <div>
+        <a href="{% url "questions_list"%}">All questions</a>
+    </div>
+    <div>
+    {% for tag in question.tags.all %}
+        <a href="{% url "tag_detail" id=tag.id%}">{{ tag }}</a>
+    {% endfor %}
+    </div>
+{% endblock %}
