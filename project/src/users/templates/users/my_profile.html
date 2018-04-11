@@ -1,0 +1,22 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <div>
+        This is your profile {{ user.first_name }} {{ user.last_name }}!
+    </div><br>
+    <div>Your questions:</div><br>
+    <div>
+    {% for question in user.questions.all %}
+        <a href="{% url "question_detail" id=question.id%}">{{ question }}</a>
+    {% endfor %}
+    </div><br>
+    <a href="{% url "question_create"  %}">Создать новый вопрос</a><br><br>
+    <div>Questions with your answers:</div><br>
+    <div>
+    {% for answer in user.answers.all %}
+        <a href="{% url "question_detail" id=answer.question.id%}">{{ question }}</a>
+    {% endfor %}
+    </div><br><br>
+    <a href="{% url "password_edit"  %}">Сменить пароль</a><br>
+    <a href="{% url "logout"  %}">Выйти</a><br>
+{% endblock %}

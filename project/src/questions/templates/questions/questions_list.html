@@ -1,0 +1,16 @@
+{% extends "questions/base.html" %}
+
+{% block content %}
+    <div>
+        <form action="" method="get">
+            {{ form }}
+            <button type="submit">Go</button>
+        </form>
+    </div>
+    <a href="{% url "question_create"  %}">Создать новый вопрос</a><br>
+    <div>
+    {% for question in questions %}
+        <a href="{% url "question_detail" id=question.id %}">{{ question }}</a>
+    {% endfor %}
+    </div><br>
+{% endblock %}

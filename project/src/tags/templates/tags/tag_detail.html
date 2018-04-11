@@ -1,0 +1,13 @@
+{% extends "tags/base.html" %}
+
+{% block content %}
+    <div>
+        <a href="{% url "tags_list"%}">All tags</a>
+    </div>
+    Questions:
+    <div>
+    {% for question in tag.questions.all %}
+        <a href="{% url "question_detail" id=question.id%}">{{ question }}</a>
+    {% endfor %}
+    </div><br>
+{% endblock %}

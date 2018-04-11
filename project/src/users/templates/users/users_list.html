@@ -1,0 +1,17 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <div>
+        <form action="" method="get">
+            {{ form }}
+            <button type="submit">Go</button>
+        </form>
+    </div>
+    <a href="{% url "registration"  %}">Registration</a><br><br>
+    <div>
+    Users:
+    {% for user in users %}
+        <a href="{% url "profile" id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+    {% endfor %}
+    </div><br>
+{% endblock %}

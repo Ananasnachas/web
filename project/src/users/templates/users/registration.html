@@ -1,0 +1,16 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <div>{{ text }}</div>
+    <form method="post" action="">
+        {% csrf_token %}
+        Username: <div>{{ form.username }}</div>
+        Email: <div>{{ form.email }}</div>
+        FirstName: <div>{{ form.first_name }}</div>
+        LastName (optional):<div>{{ form.last_name }}</div>
+        Password: <div>{{ form.password1 }}</div>
+        Confirm password: <div>{{ form.password2 }}</div>
+
+    <button>Sign up</button>
+    </form>
+{% endblock %}

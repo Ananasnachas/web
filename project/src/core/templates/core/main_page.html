@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+
+{% block title %} core {% endblock %}
+
+{% block content %}
+    <div>
+        <a href="{% url "questions_list"%}">All questions</a>
+    </div>
+    <div>
+        <a href="{% url "tags_list"%}">All tags</a>
+    </div>
+    <div>
+        <a href="{% url "login"%}">Login</a>
+    </div>
+    <div><a href="{% url "registration"  %}">Registration</a></div>
+    <div>
+        <a href="{% url "users_list"%}">All users</a>
+    </div>
+{% endblock %}
