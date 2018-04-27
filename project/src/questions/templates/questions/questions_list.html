@@ -1,16 +1,28 @@
 {% extends "questions/base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-    <div>
-        <form action="" method="get">
-            {{ form }}
-            <button type="submit">Go</button>
-        </form>
-    </div>
-    <a href="{% url "question_create"  %}">Создать новый вопрос</a><br>
-    <div>
+    <div class="row">
+        <div class="col-md-auto">
+            <form method="get" action="">
+                <h3><a class="btn btn-dark" href="{% url "question_create"  %}" >Создать новый вопрос</a><br></h3>
+                {{ form|crispy }}
+            <button type="submit" class="btn btn-dark">Go</button>
+            </form>
+        </div>
+    </div><br><br>
+    <div class="row">
     {% for question in questions %}
-        <a href="{% url "question_detail" id=question.id %}">{{ question }}</a>
+    <div class="col-auto">
+        <div class="card text-white bg-dark" style="max-width: 18rem; min-width: 18rem;">
+            <div class="card-header ">{{ question.name }}</div>
+            <div class="card-body">
+            <h5 class="card-title">Author: {{ question.author.first_name }} {{ question.author.last_name }}</h5>
+            <p class="card-text">Likes: {{ question.likes.count }}</p>
+            <p class="card-text"><a href="{% url "question_detail" id=question.id%}" class="btn btn-light">Read</a></p>
+            </div>
+        </div><br>
+    </div>
     {% endfor %}
     </div><br>
 {% endblock %}
+

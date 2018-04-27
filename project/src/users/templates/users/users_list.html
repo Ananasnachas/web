@@ -1,17 +1,24 @@
 {% extends "users/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div>
-        <form action="" method="get">
-            {{ form }}
-            <button type="submit">Go</button>
-        </form>
-    </div>
-    <a href="{% url "registration"  %}">Registration</a><br><br>
-    <div>
-    Users:
+    <div class="row">
+        <div class="col-md-auto">
+            <form method="get" action="">
+                {% csrf_token %}
+                {{ form|crispy }}
+            <button type="submit" class="btn btn-dark">Go</button>
+            </form>
+        </div>
+    </div><br>
+    <div class="row">
     {% for user in users %}
-        <a href="{% url "profile" id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+        <div class="col-auto">
+            <a class="btn bg-dark text-light" href="{% url "profile" id=user.id %}">{{ user.first_name }} {{ user.last_name }} </a>
+        </div>
     {% endfor %}
     </div><br>
 {% endblock %}
+
+
+

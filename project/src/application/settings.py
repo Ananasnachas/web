@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'answers.apps.AnswersConfig',
     'likes.apps.LikesConfig',
+    'crispy_forms',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -135,3 +136,5 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'my_profile'
 
 LOGOUT_URL = 'logout'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

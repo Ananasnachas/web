@@ -20,7 +20,6 @@ class Login(LoginView):
 class Logout(LogoutView):
     template_name = 'users/logout.html'
 
-
 def password_edit(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -75,7 +74,7 @@ def profile(request, id):
 
 
 def users_list(request):
-    users = User.objects.all().filter(is_archive=False)
+    users = User.objects.all().filter(is_archive=False, is_superuser=False)
     form = UsersListForm(request.GET)
     if form.is_valid():
         input = form.cleaned_data
@@ -83,7 +82,7 @@ def users_list(request):
             sort = input['sort']
             users = users.order_by(sort)
         if input['search']:
-            users = users.filter(name__icontains=input['search'])
+            users = users.filter(first_name__icontains=input['search'])
     context = {
         'users': users,
         'form': form,

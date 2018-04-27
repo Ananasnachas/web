@@ -1,16 +1,23 @@
 {% extends "tags/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-    <div>
-        <form action="" method="get">
-            {{ form }}
-            <button type="submit">Go</button>
-        </form>
-    </div>
-    Tags:
-    <div>
+    <div class="row">
+        <div class="col-md-auto">
+            <form method="get" action="">
+                {{ form|crispy }}
+            <button type="submit" class="btn btn-dark">Go</button>
+            </form>
+        </div>
+    </div><br><br>
+    <div class="row">
     {% for tag in tags %}
-        <a href="{% url "tag_detail" id=tag.id %}">{{ tag }}</a>
+        <div class="col-auto">
+            <div class="button bg-light border" style="min-width: 10rem;">
+            <a class="btn bg-dark text-light" href="{% url "tag_detail" id=tag.id %}">{{ tag }} </a>
+            x {{ tag.questions.count }}
+            </div><br>
+        </div>
     {% endfor %}
     </div><br>
 {% endblock %}

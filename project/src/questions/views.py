@@ -15,8 +15,8 @@ def question_detail(request, id):
     name = ''
     if question.author.is_superuser:
         name = 'Admin'
-    if request.method == 'POST':
-        user = request.user
+    user = request.user
+    if request.method == 'POST' and user.id is not None:
         question_likes = question.likes.all().filter(author__id=user.id)
         if question_likes.all().count() == 0:
             like = Like(author=user, question=question)
@@ -27,7 +27,8 @@ def question_detail(request, id):
     context = {
         'question': question,
         'name': name,
-        'likes': question.likes.all().count()
+        'likes': question.likes.all().count(),
+        'user': user,
     }
     return render(request, 'questions/question.html', context)
 
@@ -81,11 +82,15 @@ def question_create(request):
 
 def question_edit(request, id=None):
     question = get_object_or_404(Question, id=id)
+    tags = ''
+    for tag in question.tags.all():
+        tags += tag.name
+        tags += '@@'
     if request.method == 'GET':
-        form = QuestionForm(initial={'name': question.name, 'text': question.text, 'tags': question.tags})
+        form = QuestionForm(initial={'name': question.name, 'text': question.text, 'tags': tags})
         return render(request, 'questions/question_edit.html', {'form': form})
     elif request.method == 'POST':
-        form = QuestionForm(request.POST, initial={'name': question.name, 'text': question.text, 'tags': question.tags})
+        form = QuestionForm(request.POST, initial={'name': question.name, 'text': question.text, 'tags': tags})
         if form.is_valid():
             name = form.cleaned_data['name']
             text = form.cleaned_data['text']
@@ -94,16 +99,21 @@ def question_edit(request, id=None):
             question.text = text
             question.save()
             splited_tags = tags.split(u'@@', -1)
+            question.tags.clear()
             for tag_name in splited_tags:
-                is_tag_new = True
-                for tag in Tag.objects.all():
-                    if tag.name == tag_name:
-                        question.tags.add(tag)
-                        is_tag_new = False
-                        break
-                if is_tag_new:
-                    question.tags.add(make_new_tag(tag_name))
-                question.save()
-            return redirect('questions:question_detail', id=question.id)
+                if tag_name is not '':
+                    is_tag_new = True
+                    for tag in Tag.objects.all():
+                        if tag.name == tag_name:
+                            question.tags.add(tag)
+                            is_tag_new = False
+                            break
+                    if is_tag_new:
+                        question.tags.add(make_new_tag(tag_name))
+                    question.save()
+            for tag in Tag.objects.all():
+                if tag.questions.count() is 0:
+                    tag.delete()
+            return redirect('question_detail', id=question.id)
         else:
             return render(request, 'questions/question_edit.html', {'form': form})

@@ -2,12 +2,19 @@
 
 {% block content %}
     <div>
-        <a href="{% url "tags_list"%}">All tags</a>
+        <a class="btn btn-dark" href="{% url "tags_list"%}">All tags</a><br><br>
     </div>
-    Questions:
-    <div>
+    <div class="row">
     {% for question in tag.questions.all %}
-        <a href="{% url "question_detail" id=question.id%}">{{ question }}</a>
+    <div class="col-sm-4">
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header ">{{ question.name }}</div>
+            <div class="card-body">
+            <h5 class="card-title">Author: {{ question.author.first_name }} {{ question.author.last_name }}</h5>
+            <p class="card-text"><a href="{% url "question_detail" id=question.id%}" class="btn btn-light">Read</a></p>
+            </div>
+        </div>
+    </div>
     {% endfor %}
     </div><br>
 {% endblock %}

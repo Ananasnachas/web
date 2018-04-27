@@ -3,6 +3,20 @@
 {% block title %} core {% endblock %}
 
 {% block content %}
+    <div class="row justify-content-right">
+        <div class="col-6">
+    {% for question in questions %}
+        <div class="card text-white bg-dark" style="max-width: 12rem; min-width: 12rem;">
+            <div class="card-header ">{{ question.name }}</div>
+            <div class="card-body">
+            <h5 class="card-title">Author: {{ question.author.first_name }} {{ question.author.last_name }}</h5>
+            <p class="card-text">Likes: {{ question.likes.count }}</p>
+            <p class="card-text"><a href="{% url "question_detail" id=question.id%}" class="btn btn-light">Read</a></p>
+            </div>
+        </div><br>
+    {% endfor %}
+    </div>
+    </div><br>
     <div>
         <a href="{% url "questions_list"%}">All questions</a>
     </div>

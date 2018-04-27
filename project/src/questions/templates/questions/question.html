@@ -1,17 +1,47 @@
 {% extends "questions/base.html" %}
 
 {% block content %}
-    <div><a href="{% url "questions_list"%}">All questions</a></div><br>
-    <div>Name: {{ question.name }}</div><br>
-    <div>Made by: <a href="{% url "profile" id=question.author.id%}">{{ name }}{{ question.author.first_name }} {{ question.author.last_name }}</a></div><br>
-    <div>Text: {{ question.text }}</div><br>
-    <div>Tags:
-    {% for tag in question.tags.all %}
-        <a href="{% url "tag_detail" id=tag.id%}">{{ tag }}</a>
+        <div class="card text-white bg-dark">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>{{ question.name }}</h3>
+                    </div>
+                    <div class="col">
+                        <h5>Question by: <a class="text-light"  href="{% url "profile" id=question.author.id%}"> {{ name }} {{ question.author.first_name }} {{ question.author.last_name }} </a> </h5>
+                        {%if user.id == question.author.id%}
+                            <a class="btn btn-success" href="{% url "question_edit" id=question.id %}">Edit </a>
+                            <a class="btn btn-danger" name="delete" href="{% url "question_detail" id=question.id %}">Delite </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h4>{{ question.text }}</h4><br>
+                        <h3>
+                            {% for tag in question.tags.all %}
+                                <a class="btn btn-dark text-secondary border border-secondary" href="{% url "tag_detail" id=tag.id%}"> {{ tag }} </a>
+                            {% endfor %}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Likes: {{ likes }}</button>
+                </form>
+            </div>
+        </div><br>
+    {% for answer in question.answers.all %}
+    <div class="jumbotron text-dark bg-light border border-dark">
+        <div class="container">
+            <h3 class="display-12">Answer by: <a class="text-dark"  href="{% url "profile" id=answer.author.id%}">{{ name }}{{ answer.author.first_name }} {{ answer.author.last_name }}</a></h3><br>
+            <p class="lead">{{ answer.text }}</p>
+        </div>
+    </div>
     {% endfor %}
-    </div><br>
-    <form method="post" action="">
-    {% csrf_token %}
-    <button type="submit">{{ likes }}</button>
-    </form><br>
+
 {% endblock %}

@@ -13,7 +13,7 @@ class Question(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_archive = models.BooleanField(default=False, verbose_name=u'Вопрос в архиве')
-    text = models.TextField(max_length=5000, verbose_name=u'Текст ответа', null=True)
+    text = models.TextField(verbose_name=u'Текст ответа', null=True)
 
     class Meta:
         verbose_name = u'Вопрос'
